@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CocosSwift/Classes/Scenes/GameScene.swift"
+            timestampString = "481684484.882221"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CocosSwift.GameScene.init (CocosSwift.GameScene.Type)() -&gt; CocosSwift.GameScene"
+                  moduleName = "CocosSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Guest/Desktop/CommandRaider/CocosSwift/Classes/Scenes/GameScene.swift"
+                  timestampString = "481678651.470483"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "1829">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CocosSwift.GameScene.tempoMinimoProximoTiro.getter : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Double&gt;"
+                  moduleName = "CocosSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Guest/Desktop/CommandRaider/CocosSwift/Classes/Scenes/GameScene.swift"
+                  timestampString = "481678651.47067"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "17">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CocosSwift.GameScene.tempoMinimoProximoTiro.setter : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Double&gt;"
+                  moduleName = "CocosSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Guest/Desktop/CommandRaider/CocosSwift/Classes/Scenes/GameScene.swift"
+                  timestampString = "481678651.470776"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "43">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CocosSwift.GameScene.tempoMinimoProximoTiro.materializeForSet : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Double&gt;"
+                  moduleName = "CocosSwift"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Guest/Desktop/CommandRaider/CocosSwift/Classes/Scenes/GameScene.swift"
+                  timestampString = "481678651.47087"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

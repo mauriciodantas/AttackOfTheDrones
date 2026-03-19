@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3 uid="uid://game"]
+
+[ext_resource type="Script" path="res://scripts/GameScene.gd" id="1"]
+
+[node name="GameScene" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(187.5, 333.5)
+texture = ExtResource("res://assets/images/bgGame.png")
+
+[node name="Ground" type="StaticBody2D" parent="."]
+add_to_group = ["ground"]
+
+[node name="GroundCollision" type="CollisionShape2D" parent="Ground"]
+position = Vector2(187.5, 667)
+
+[node name="World" type="Node2D" parent="."]
+name = "World"
+
+[node name="BaseWeapon" type="Sprite2D" parent="."]
+position = Vector2(187.5, 620)
+texture = ExtResource("res://assets/images/baseWeapon.png")
+
+[node name="Weapon" type="Sprite2D" parent="."]
+name = "Weapon"
+position = Vector2(187.5, 610)
+texture = ExtResource("res://assets/images/weapon.png")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ScoreLabel" type="Label" parent="UI"]
+name = "ScoreLabel"
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 0.0
+grow_horizontal = 2
+text = "0"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 32
+
+[node name="LifeLabel" type="Label" parent="UI"]
+name = "LifeLabel"
+position = Vector2(10, 10)
+text = "Lives: 5"
+theme_override_font_sizes/font_size = 24
+
+[node name="GameOverLabel" type="Label" parent="UI"]
+name = "GameOverLabel"
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 0.4
+anchor_bottom = 0.4
+grow_horizontal = 2
+grow_vertical = 2
+text = "GAME OVER\nTap to return"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 48
+visible = false
+
+[node name="BackButton" type="TextureButton" parent="UI"]
+anchor_right = 1.0
+position = Vector2(-60, 10)
+size = Vector2(50, 50)
+texture_normal = ExtResource("res://assets/images/back.png")
+
+[connection signal="pressed" from="UI/BackButton" to="." method="_on_back_button_pressed"]
+
+[node name="SoundManager" type="Node" parent="."]
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="SoundManager"]
+name = "MusicPlayer"
+autoplay = false
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="SoundManager"]
+name = "SFXPlayer"
+autoplay = false

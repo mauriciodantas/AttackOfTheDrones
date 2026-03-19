@@ -1,0 +1,58 @@
+[gd_scene load_steps=2 format=3 uid="uid://home"]
+
+[ext_resource type="Script" path="res://scripts/HomeScene.gd" id="1"]
+
+[node name="HomeScene" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(187.5, 333.5)
+texture = ExtResource("res://assets/images/bgHome.png")
+
+[node name="DroneHome" type="Sprite2D" parent="."]
+name = "DroneHome"
+position = Vector2(280, 200)
+texture = ExtResource("res://assets/images/droneHome.png")
+
+[node name="ManHome" type="Sprite2D" parent="."]
+position = Vector2(60, 530)
+texture = ExtResource("res://assets/images/manHome.png")
+
+[node name="Cloud1" type="Sprite2D" parent="."]
+name = "Cloud1"
+position = Vector2(80, 120)
+texture = ExtResource("res://assets/images/cloud1.png")
+
+[node name="Cloud2" type="Sprite2D" parent="."]
+name = "Cloud2"
+position = Vector2(260, 80)
+texture = ExtResource("res://assets/images/cloud2.png")
+
+[node name="Logo" type="Sprite2D" parent="."]
+position = Vector2(187.5, 160)
+texture = ExtResource("res://assets/images/logo.png")
+scale = Vector2(0.6, 0.6)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="PlayButton" type="TextureButton" parent="UI"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 0.6
+anchor_bottom = 0.6
+grow_horizontal = 2
+grow_vertical = 2
+size = Vector2(140, 50)
+position = Vector2(-70, 0)
+texture_normal = ExtResource("res://assets/images/btPlay.png")
+
+[node name="SettingsButton" type="TextureButton" parent="UI"]
+anchor_right = 1.0
+anchor_top = 0.0
+grow_horizontal = 0
+position = Vector2(-60, 10)
+size = Vector2(50, 50)
+texture_normal = ExtResource("res://assets/images/settings.png")
+
+[connection signal="pressed" from="UI/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="UI/SettingsButton" to="." method="_on_settings_button_pressed"]

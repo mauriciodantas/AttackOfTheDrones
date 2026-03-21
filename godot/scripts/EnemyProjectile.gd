@@ -23,8 +23,9 @@ func _ready() -> void:
 
 
 func launch() -> void:
-	# Inherits gravity from project settings (985 px/s²)
-	pass
+	# Add a small random horizontal drift so boxes don't fall perfectly straight
+	var drift := randf_range(-30.0, 30.0)
+	linear_velocity = Vector2(drift, 0.0)
 
 
 func freeze() -> void:

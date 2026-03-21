@@ -18,7 +18,7 @@ config/icon="res://assets/images/logo.png"
 
 [audio]
 
-buses/default_bus_layout=""
+buses/default_bus_layout="res://resources/audio_bus_layout.tres"
 
 [display]
 

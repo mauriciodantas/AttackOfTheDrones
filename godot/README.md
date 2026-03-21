@@ -30,9 +30,9 @@ godot/
 │   ├── PlayerBullet.gd    # Player bullet (was TiroPlayer.swift)
 │   └── EnemyProjectile.gd # Enemy projectile (was TiroInimigo.swift)
 └── assets/
-    ├── images/            # All PNG sprites from original project
-    ├── audio/             # MP3/WAV audio from original project
-    └── animations/        # Original .plist animation descriptors (reference)
+	├── images/            # All PNG sprites from original project
+	├── audio/             # MP3/WAV audio from original project
+	└── animations/        # Original .plist animation descriptors (reference)
 ```
 
 ## Migration Map

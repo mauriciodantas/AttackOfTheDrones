@@ -1,6 +1,3 @@
-## GameScene.gd
-## Core gameplay scene managing spawning, collisions, scoring and UI.
-## Equivalent to GameScene.swift in the original Cocos2d project.
 extends Node2D
 
 # --- Difficulty parameters (mirror original Swift constants) ---

@@ -1,7 +1,7 @@
-[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://drone_frames"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://b1n2amv3g2rnh"]
 
-[ext_resource type="Texture2D" path="res://assets/images/drone1.png" id="1"]
-[ext_resource type="Texture2D" path="res://assets/images/drone2.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://bvk2pdhc8wy8n" path="res://assets/images/drone1.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://djqtvx3optnt7" path="res://assets/images/drone2.png" id="2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1"]
 atlas = ExtResource("1")

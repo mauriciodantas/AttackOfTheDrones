@@ -18,14 +18,20 @@ func _ready() -> void:
 	gravity_scale = GRAVITY_SCALE_VALUE
 
 
-func launch(variant: int = 0) -> void:
+func launch(variant: int = 0, drone_velocity: Vector2 = Vector2.ZERO) -> void:
 	# Use the same box variant the drone was carrying; fallback to random
 	var v := variant if variant >= 1 and variant <= BOX_VARIANTS else (randi() % BOX_VARIANTS) + 1
 	sprite.texture = load("res://assets/images/box%d.png" % v)
 
-	# Add a small random horizontal drift so boxes don't fall perfectly straight
-	var drift := randf_range(-30.0, 30.0)
-	linear_velocity = Vector2(drift, 0.0)
+	# Inherit the drone's current velocity so the box launches at the same angle
+	linear_velocity = drone_velocity
+
+	# Rotate the whole body to match the launch direction
+	if drone_velocity.length_squared() > 1.0:
+		rotation = drone_velocity.angle()
+
+	# Gentle tumble as it falls under gravity
+	angular_velocity = randf_range(-3.5, 3.5)
 
 
 func freeze() -> void:

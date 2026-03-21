@@ -17,6 +17,7 @@ var PlayerBulletScene: PackedScene = preload("res://scenes/PlayerBullet.tscn")
 @onready var score_label: Label = $UI/ScoreLabel
 @onready var life_label: Label = $UI/LifeLabel
 @onready var game_over_label: Label = $UI/GameOverLabel
+@onready var fade_overlay: ColorRect = $UI/FadeOverlay
 @onready var weapon: Sprite2D = $Weapon
 @onready var world: Node2D = $World
 
@@ -24,6 +25,7 @@ var PlayerBulletScene: PackedScene = preload("res://scenes/PlayerBullet.tscn")
 var _score: int = 0
 var _lives: int = 5
 var _game_over: bool = false
+var _game_over_ready: bool = false  # true only after game over animation finishes
 var _spawn_left: bool = false  # alternates drone/person spawn side
 
 
@@ -37,8 +39,12 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if _game_over:
-		if event is InputEventScreenTouch and event.pressed:
-			GameState.go_to("home")
+		if _game_over_ready:
+			var tapped: bool = (event is InputEventScreenTouch and event.pressed) \
+				or (event is InputEventMouseButton and event.pressed \
+					and event.button_index == MOUSE_BUTTON_LEFT)
+			if tapped:
+				GameState.go_to("home")
 		return
 
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -86,8 +92,8 @@ func _spawn_drone() -> void:
 	world.add_child(drone)
 
 	_spawn_left = not _spawn_left
-	var y := randf_range(viewport_size.y * 0.45, viewport_size.y * 0.65)
-	var speed := MIN_DRONE_SPEED + randf_range(0.0, 70.0)
+	var y := randf_range(viewport_size.y * 0.25, viewport_size.y * 0.65)
+	var speed := MIN_DRONE_SPEED + randf_range(0.0, 80.0)
 
 	if _spawn_left:
 		drone.global_position = Vector2(-drone.get_width() / 2.0, y)
@@ -167,12 +173,34 @@ func _update_ui() -> void:
 
 func _trigger_game_over() -> void:
 	_game_over = true
-	game_over_label.visible = true
 
 	# Freeze all enemies
 	for child in world.get_children():
 		if child.has_method("freeze"):
 			child.freeze()
+
+	SoundManager.play_game_over()
+
+	# Phase 1: dark overlay fades in
+	var t1 := create_tween()
+	t1.tween_property(fade_overlay, "modulate:a", 0.78, 0.7) \
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	await t1.finished
+
+	# Phase 2: game over label pops in with scale + alpha
+	game_over_label.visible = true
+	game_over_label.modulate.a = 0.0
+	game_over_label.scale = Vector2(0.25, 0.25)
+	await get_tree().process_frame          # wait one frame so size is computed
+	game_over_label.pivot_offset = game_over_label.size / 2.0
+
+	var t2 := create_tween().set_parallel(true)
+	t2.tween_property(game_over_label, "scale", Vector2(1.0, 1.0), 0.45) \
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	t2.tween_property(game_over_label, "modulate:a", 1.0, 0.3) \
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	await t2.finished
+	_game_over_ready = true
 
 
 func _on_back_button_pressed() -> void:

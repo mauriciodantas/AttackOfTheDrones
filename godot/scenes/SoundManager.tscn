@@ -12,3 +12,19 @@ bus = "Music"
 [node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
 name = "SFXPlayer"
 bus = "SFX"
+
+[node name="ExplosionPlayer" type="AudioStreamPlayer" parent="."]
+name = "ExplosionPlayer"
+bus = "SFX"
+
+[node name="ImpactPlayer" type="AudioStreamPlayer" parent="."]
+name = "ImpactPlayer"
+bus = "SFX"
+
+[node name="ScreamPlayer" type="AudioStreamPlayer" parent="."]
+name = "ScreamPlayer"
+bus = "SFX"
+
+[node name="GameOverPlayer" type="AudioStreamPlayer" parent="."]
+name = "GameOverPlayer"
+bus = "SFX"

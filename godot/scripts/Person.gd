@@ -5,6 +5,8 @@ extends CharacterBody2D
 
 signal killed  # emitted when hit by an enemy projectile
 
+const ExplosionScene: PackedScene = preload("res://scenes/Explosion.tscn")
+
 @onready var sprite: AnimatedSprite2D = $Sprite
 
 var _velocity: Vector2 = Vector2.ZERO
@@ -44,5 +46,16 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	var projectile := area.get_parent()
 	if projectile.is_in_group("enemy_projectile"):
 		projectile.destroy()
+		_spawn_impact()
 		emit_signal("killed")
 		queue_free()
+
+
+func _spawn_impact() -> void:
+	SoundManager.play_impact()
+	SoundManager.play_scream()
+	var impact := ExplosionScene.instantiate() as Node2D
+	# Red/yellow tint to differentiate from the orange drone explosion
+	impact.get_node("Sprite").modulate = Color(1.0, 0.2, 0.2, 1.0)
+	get_parent().add_child(impact)
+	impact.global_position = global_position

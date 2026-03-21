@@ -20,7 +20,22 @@ var _phase: float = 0.0         # random start phase so drones don't sync up
 var _time: float = 0.0
 var _shoot_interval: float = 4.0
 var _frozen: bool = false
-var _box_variant: int = 1
+var _destroyed: bool = false
+var _box_variant: int = 0  # index into EnemyProjectile.CARGO_TEXTURES
+
+# Mirror of EnemyProjectile.CARGO_TEXTURES so the drone can show the same sprite
+const CARGO_TEXTURES: Array[String] = [
+	"res://assets/images/box1.png",
+	"res://assets/images/box2.png",
+	"res://assets/images/box3.png",
+	"res://assets/images/box4.png",
+	"res://assets/images/cargo_plant.png",
+	"res://assets/images/cargo_pizza.png",
+	"res://assets/images/cargo_bag.png",
+	"res://assets/images/cargo_barrel.png",
+	"res://assets/images/cargo_fruits.png",
+	"res://assets/images/cargo_package.png",
+]
 
 
 func _ready() -> void:
@@ -29,16 +44,16 @@ func _ready() -> void:
 	sprite.animation = "drone%d" % variant
 	sprite.play()
 
-	# Pick a random box texture to carry
-	_box_variant = (randi() % 4) + 1
-	box_sprite.texture = load("res://assets/images/box%d.png" % _box_variant)
+	# Pick a random cargo from the full catalogue
+	_box_variant = randi() % CARGO_TEXTURES.size()
+	box_sprite.texture = load(CARGO_TEXTURES[_box_variant])
 
 
 func launch(velocity: Vector2, shoot_interval: float) -> void:
 	_h_speed      = velocity.x
 	_start_y      = position.y
 	_wave_amp     = randf_range(35.0, 130.0)   # vertical swing range
-	_wave_freq    = randf_range(0.35, 1.4)      # oscillations per second
+	_wave_freq    = randf_range(0.12, 0.45)     # oscillations per second
 	_phase        = randf_range(0.0, TAU)       # randomise starting point
 	_shoot_interval = shoot_interval
 	_schedule_shoot()
@@ -68,8 +83,15 @@ func _physics_process(delta: float) -> void:
 	tilt = clamp(tilt, -deg_to_rad(30.0), deg_to_rad(30.0))
 	# Flip sign for left-moving drones (scale.x = -1) so the nose points correctly
 	var final_tilt: float = tilt if _h_speed >= 0.0 else -tilt
-	sprite.rotation    = final_tilt
-	box_sprite.rotation = final_tilt
+	sprite.rotation = final_tilt
+
+	# Keep the box visually attached to the drone's undercarriage.
+	# When the drone tilts, the attachment point (0, attach_y) rotates with it,
+	# so we update the box position accordingly. The box itself stays upright
+	# (gravity-aligned) so it looks like it's hanging from the drone.
+	var attach_y: float = 38.0
+	box_sprite.position = Vector2(-attach_y * sin(final_tilt), attach_y * cos(final_tilt))
+	box_sprite.rotation = 0.0
 
 	# Remove self once off-screen horizontally
 	if position.x > viewport_size.x + 100.0 or position.x < -100.0:
@@ -120,11 +142,35 @@ func freeze() -> void:
 
 # Called by Area2D overlap with player bullet
 func _on_hitbox_area_entered(area: Area2D) -> void:
+	if _destroyed:
+		return
 	if area.is_in_group("player_bullet"):
+		_destroyed = true
+		_frozen = true
 		area.destroy()
+		_drop_box()
 		_spawn_explosion()
 		emit_signal("hit")
 		queue_free()
+
+
+func _drop_box() -> void:
+	# If the box was already launched (shot), nothing to drop
+	if not box_sprite.visible:
+		return
+
+	var dy_dt: float = cos(_time * _wave_freq * TAU + _phase) * _wave_amp * _wave_freq * TAU
+
+	var projectile := EnemyProjectileScene.instantiate() as Node2D
+	get_parent().add_child(projectile)
+	projectile.global_position = box_sprite.global_position
+	projectile.launch(_box_variant, Vector2(_h_speed, dy_dt))
+
+	# Connect destroyed signal directly to the game scene, not to this drone
+	# (the drone will be freed before the box can be shot down)
+	var game_scene := _find_game_scene()
+	if game_scene and game_scene.has_method("on_enemy_projectile_destroyed"):
+		projectile.destroyed.connect(game_scene.on_enemy_projectile_destroyed)
 
 
 func _spawn_explosion() -> void:

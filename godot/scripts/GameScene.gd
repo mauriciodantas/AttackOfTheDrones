@@ -5,17 +5,18 @@ const BULLET_SPEED := 700.0
 const MIN_DRONE_SPAWN_INTERVAL := 2.0
 const MIN_PERSON_SPAWN_INTERVAL := 2.0
 const MIN_DRONE_SHOOT_INTERVAL := 4.0
-const MIN_DRONE_SPEED := 70.0   # pixels/second (original used pixels/frame * 60)
+const MIN_DRONE_SPEED := 45.0   # pixels/second (original used pixels/frame * 60)
 const MIN_PERSON_SPEED := 100.0
 
 # --- Preloaded scenes ---
 var DroneScene: PackedScene = preload("res://scenes/Drone.tscn")
 var PersonScene: PackedScene = preload("res://scenes/Person.tscn")
 var PlayerBulletScene: PackedScene = preload("res://scenes/PlayerBullet.tscn")
+var HeartTexture: Texture2D = preload("res://assets/images/heart.png")
 
 # --- UI nodes ---
 @onready var score_label: Label = $UI/ScoreLabel
-@onready var life_label: Label = $UI/LifeLabel
+@onready var lives_container: HBoxContainer = $UI/LivesContainer
 @onready var game_over_label: Label = $UI/GameOverLabel
 @onready var fade_overlay: ColorRect = $UI/FadeOverlay
 @onready var weapon: Sprite2D = $Weapon
@@ -24,6 +25,7 @@ var PlayerBulletScene: PackedScene = preload("res://scenes/PlayerBullet.tscn")
 # --- State ---
 var _score: int = 0
 var _lives: int = 5
+const MAX_LIVES := 5
 var _game_over: bool = false
 var _game_over_ready: bool = false  # true only after game over animation finishes
 var _spawn_left: bool = false  # alternates drone/person spawn side
@@ -32,6 +34,7 @@ var _spawn_left: bool = false  # alternates drone/person spawn side
 func _ready() -> void:
 	SoundManager.play_background(true)
 	game_over_label.visible = false
+	_setup_hearts()
 	_update_ui()
 	_schedule_drone_spawn()
 	_schedule_person_spawn()
@@ -93,7 +96,7 @@ func _spawn_drone() -> void:
 
 	_spawn_left = not _spawn_left
 	var y := randf_range(viewport_size.y * 0.25, viewport_size.y * 0.65)
-	var speed := MIN_DRONE_SPEED + randf_range(0.0, 80.0)
+	var speed := MIN_DRONE_SPEED + randf_range(0.0, 45.0)
 
 	if _spawn_left:
 		drone.global_position = Vector2(-drone.get_width() / 2.0, y)
@@ -124,10 +127,10 @@ func _spawn_person() -> void:
 	# Alternate spawn side (independent of drone spawner)
 	var from_left := randi() % 2 == 0
 	if from_left:
-		person.global_position = Vector2(-20.0, viewport_size.y * 0.77)
+		person.global_position = Vector2(-20.0, viewport_size.y * 0.88)
 		person.launch(Vector2(speed, 0.0))
 	else:
-		person.global_position = Vector2(viewport_size.x + 20.0, viewport_size.y * 0.77)
+		person.global_position = Vector2(viewport_size.x + 20.0, viewport_size.y * 0.88)
 		person.launch(Vector2(-speed, 0.0))
 		person.scale.x = -1.0
 
@@ -162,9 +165,27 @@ func _add_score(amount: int) -> void:
 	_update_ui()
 
 
+func _setup_hearts() -> void:
+	for i in range(MAX_LIVES):
+		var heart := TextureRect.new()
+		heart.texture = HeartTexture
+		heart.custom_minimum_size = Vector2(44, 44)
+		heart.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		lives_container.add_child(heart)
+
+
+func _update_hearts() -> void:
+	for i in range(lives_container.get_child_count()):
+		var heart := lives_container.get_child(i) as TextureRect
+		if i < _lives:
+			heart.modulate = Color(1.0, 1.0, 1.0, 1.0)   # coração ativo
+		else:
+			heart.modulate = Color(0.2, 0.2, 0.2, 0.35)  # coração perdido
+
+
 func _update_ui() -> void:
 	score_label.text = str(_score)
-	life_label.text = "Lives: %d" % _lives
+	_update_hearts()
 
 
 # ---------------------------------------------------------------------------

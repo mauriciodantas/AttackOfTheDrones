@@ -1,69 +1,93 @@
-[gd_scene load_steps=5 format=3 uid="uid://settings"]
+[gd_scene format=3 uid="uid://settings"]
 
-[ext_resource type="Script" path="res://scripts/SettingsScene.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/images/bgSplashScreen.png" id="2"]
-[ext_resource type="Texture2D" path="res://assets/images/cloud1.png" id="3"]
-[ext_resource type="Texture2D" path="res://assets/images/back.png" id="4"]
+[ext_resource type="Script" uid="uid://ill7t0wkbmoh" path="res://scripts/SettingsScene.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cig376u1hypxc" path="res://assets/images/bgSplashScreen.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://bf3qkl41k6q45" path="res://assets/images/cloud1.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://cu2ta3s706pry" path="res://assets/images/back.png" id="4"]
 
-[node name="SettingsScene" type="Node2D"]
+[node name="SettingsScene" type="Node2D" unique_id=175686603]
 script = ExtResource("1")
 
-[node name="Background" type="Sprite2D" parent="."]
-position = Vector2(384, 512)
+[node name="Background" type="Sprite2D" parent="." unique_id=594952489]
+position = Vector2(516, 391)
 texture = ExtResource("2")
 
-[node name="Cloud1" type="Sprite2D" parent="."]
+[node name="Cloud1" type="Sprite2D" parent="." unique_id=1517380200]
 position = Vector2(164, 154)
 texture = ExtResource("3")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=283042]
 
-[node name="TitleLabel" type="Label" parent="UI"]
+[node name="TitleLabel" type="Label" parent="UI" unique_id=1632559152]
+anchors_preset = -1
 anchor_left = 0.5
-anchor_right = 0.5
 anchor_top = 0.15
+anchor_right = 0.5
+anchor_bottom = 0.15
 grow_horizontal = 2
 text = "Settings"
 horizontal_alignment = 1
 
-[node name="MusicButton" type="TextureButton" parent="UI"]
-name = "MusicButton"
+[node name="MusicButton" type="TextureButton" parent="UI" unique_id=132639613]
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.35
+anchor_right = 0.5
+anchor_bottom = 0.35
+offset_left = -140.0
+offset_right = -60.0
+offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
-size = Vector2(80, 80)
-position = Vector2(-140, 0)
 
-[node name="MusicLabel" type="Label" parent="UI"]
+[node name="MusicLabel" type="Label" parent="UI" unique_id=395615249]
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.35
-position = Vector2(-50, 20)
+anchor_right = 0.5
+anchor_bottom = 0.35
+offset_left = -50.0
+offset_top = 20.0
+offset_right = -50.0
+offset_bottom = 20.0
 text = "Music"
 
-[node name="SoundButton" type="TextureButton" parent="UI"]
-name = "SoundButton"
+[node name="SoundButton" type="TextureButton" parent="UI" unique_id=686894175]
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_right = -60.0
+offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
-size = Vector2(80, 80)
-position = Vector2(-140, 0)
 
-[node name="SoundLabel" type="Label" parent="UI"]
+[node name="SoundLabel" type="Label" parent="UI" unique_id=175373126]
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
-position = Vector2(-50, 20)
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = 20.0
+offset_right = -50.0
+offset_bottom = 20.0
 text = "Sound FX"
 
-[node name="CreditsLabel" type="Label" parent="UI"]
+[node name="CreditsLabel" type="Label" parent="UI" unique_id=490898564]
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.75
+anchor_right = 0.5
+anchor_bottom = 0.75
 grow_horizontal = 2
-text = "Attack of the Drones\nMigrated to Godot 4"
+text = "Attack of the Drones
+Migrated to Godot 4"
 horizontal_alignment = 1
 
-[node name="BackButton" type="TextureButton" parent="UI"]
+[node name="BackButton" type="TextureButton" parent="UI" unique_id=1398467008]
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 110.0

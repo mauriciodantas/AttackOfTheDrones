@@ -1,0 +1,16 @@
+[gd_resource type="LabelSettings" format=3]
+
+[sub_resource type="FontFile" id="FontFile_1"]
+font_name = "Poppins Bold"
+style_flags = 1
+data_path = "res://assets/fonts/Poppins-Bold.ttf"
+
+[resource]
+font = SubResource("FontFile_1")
+font_size = 52
+font_color = Color(1, 0.647, 0.024, 1)
+outline_size = 6
+outline_color = Color(0.13, 0.07, 0.02, 1)
+shadow_size = 4
+shadow_color = Color(0.22, 0.13, 0.6, 0.85)
+shadow_offset = Vector2(4, 4)

@@ -5,8 +5,21 @@ extends RigidBody2D
 
 signal destroyed  # emitted when shot down by the player
 
-const BOX_VARIANTS := 4
 const GRAVITY_SCALE_VALUE := 1.0  # uses project gravity of 985 px/s²
+
+# All possible cargo textures a drone can carry
+const CARGO_TEXTURES: Array[String] = [
+	"res://assets/images/box1.png",
+	"res://assets/images/box2.png",
+	"res://assets/images/box3.png",
+	"res://assets/images/box4.png",
+	"res://assets/images/cargo_plant.png",
+	"res://assets/images/cargo_pizza.png",
+	"res://assets/images/cargo_bag.png",
+	"res://assets/images/cargo_barrel.png",
+	"res://assets/images/cargo_fruits.png",
+	"res://assets/images/cargo_package.png",
+]
 
 @onready var sprite: Sprite2D = $Sprite
 
@@ -18,10 +31,11 @@ func _ready() -> void:
 	gravity_scale = GRAVITY_SCALE_VALUE
 
 
-func launch(variant: int = 0, drone_velocity: Vector2 = Vector2.ZERO) -> void:
-	# Use the same box variant the drone was carrying; fallback to random
-	var v := variant if variant >= 1 and variant <= BOX_VARIANTS else (randi() % BOX_VARIANTS) + 1
-	sprite.texture = load("res://assets/images/box%d.png" % v)
+func launch(variant: int = -1, drone_velocity: Vector2 = Vector2.ZERO) -> void:
+	# variant is a direct index into CARGO_TEXTURES; -1 means pick at random
+	var idx := variant if variant >= 0 and variant < CARGO_TEXTURES.size() \
+		else randi() % CARGO_TEXTURES.size()
+	sprite.texture = load(CARGO_TEXTURES[idx])
 
 	# Inherit the drone's current velocity so the box launches at the same angle
 	linear_velocity = drone_velocity

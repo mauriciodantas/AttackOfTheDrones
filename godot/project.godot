@@ -1,0 +1,58 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
+[application]
+
+config/name="Attack of the Drones"
+config/description="Tower defense shooting game - migrated from Cocos2d/Swift to Godot 4"
+run/main_scene="res://scenes/LoadingScene.tscn"
+config/features=PackedStringArray("4.6", "Mobile")
+config/icon="res://assets/images/logo.png"
+
+[audio]
+
+buses/default_bus_layout="res://resources/audio_bus_layout.tres"
+
+[autoload]
+
+GameState="*res://scripts/GameState.gd"
+SoundManager="*res://scenes/SoundManager.tscn"
+
+[display]
+
+window/size/viewport_width=768
+window/size/viewport_height=1024
+window/size/window_width_override=768
+window/size/window_height_override=1024
+window/handheld/orientation="portrait"
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+
+[input]
+
+tap={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+, Object(InputEventScreenTouch,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"index":0,"position":Vector2(0, 0),"canceled":false,"pressed":true,"double_tap":false,"script":null)
+]
+}
+
+[physics]
+
+2d/gravity=985.0
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="mobile"

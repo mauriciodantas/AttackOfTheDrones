@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>frames</key>
+		<dict>
+			<key>load1.png</key>
+			<dict>
+				<key>frame</key>
+				<string>{{0,102},{101,101}}</string>
+				<key>offset</key>
+				<string>{0,0}</string>
+				<key>rotated</key>
+				<false/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{101,101}}</string>
+				<key>sourceSize</key>
+				<string>{101,101}</string>
+			</dict>
+
+			<key>load2.png</key>
+			<dict>
+				<key>frame</key>
+				<string>{{0,204},{100,101}}</string>
+				<key>offset</key>
+				<string>{0,0}</string>
+				<key>rotated</key>
+				<false/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{100,101}}</string>
+				<key>sourceSize</key>
+				<string>{100,101}</string>
+			</dict>
+
+			<key>load3.png</key>
+			<dict>
+				<key>frame</key>
+				<string>{{0,306},{95,94}}</string>
+				<key>offset</key>
+				<string>{0,0}</string>
+				<key>rotated</key>
+				<false/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{95,94}}</string>
+				<key>sourceSize</key>
+				<string>{95,94}</string>
+			</dict>
+
+			<key>load4.png</key>
+			<dict>
+				<key>frame</key>
+				<string>{{96,306},{80,81}}</string>
+				<key>offset</key>
+				<string>{0,0}</string>
+				<key>rotated</key>
+				<false/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{80,81}}</string>
+				<key>sourceSize</key>
+				<string>{80,81}</string>
+			</dict>
+
+			<key>load5.png</key>
+			<dict>
+				<key>frame</key>
+				<string>{{0,401},{95,94}}</string>
+				<key>offset</key>
+				<string>{0,0}</string>
+				<key>rotated</key>
+				<false/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{95,94}}</string>
+				<key>sourceSize</key>
+				<string>{95,94}</string>
+			</dict>
+
+			<key>load6.png</key>
+			<dict>
+				<key>frame</key>
+				<string>{{0,0},{101,101}}</string>
+				<key>offset</key>
+				<string>{0,0}</string>
+				<key>rotated</key>
+				<false/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{101,101}}</string>
+				<key>sourceSize</key>
+				<string>{101,101}</string>
+			</dict>
+
+		</dict>
+
+		<key>metadata</key>
+		<dict>
+			<key>format</key>
+			<integer>2</integer>
+			<key>size</key>
+			<string>{256,512}</string>
+			<key>textureFileName</key>
+			<string>load.png</string>
+			</dict>
+		</dict>
+</plist>

@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://loading"]
+
+[ext_resource type="Script" path="res://scripts/LoadingScene.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/images/bgSplashScreen.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/images/logo.png" id="3"]
+[ext_resource type="SpriteFrames" path="res://resources/load_frames.tres" id="4"]
+
+[node name="LoadingScene" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(384, 512)
+texture = ExtResource("2")
+
+[node name="Logo" type="Sprite2D" parent="."]
+name = "Logo"
+position = Vector2(384, 384)
+texture = ExtResource("3")
+
+[node name="Spinner" type="AnimatedSprite2D" parent="."]
+name = "Spinner"
+position = Vector2(384, 768)
+sprite_frames = ExtResource("4")
+animation = &"load"
+autoplay = "load"

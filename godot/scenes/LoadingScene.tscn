@@ -9,16 +9,17 @@
 script = ExtResource("1")
 
 [node name="Background" type="Sprite2D" parent="."]
-position = Vector2(187.5, 333.5)
+position = Vector2(384, 512)
 texture = ExtResource("2")
 
 [node name="Logo" type="Sprite2D" parent="."]
 name = "Logo"
-position = Vector2(187.5, 250)
+position = Vector2(384, 384)
 texture = ExtResource("3")
 
 [node name="Spinner" type="AnimatedSprite2D" parent="."]
 name = "Spinner"
-position = Vector2(187.5, 500)
+position = Vector2(384, 768)
 sprite_frames = ExtResource("4")
 animation = &"load"
+autoplay = "load"

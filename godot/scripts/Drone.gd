@@ -9,10 +9,12 @@ const EnemyProjectileScene: PackedScene = preload("res://scenes/EnemyProjectile.
 
 @onready var sprite: AnimatedSprite2D = $Sprite
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var box_sprite: Sprite2D = $Box
 
 var _velocity: Vector2 = Vector2.ZERO
 var _shoot_interval: float = 4.0
 var _frozen: bool = false
+var _box_variant: int = 1
 
 
 func _ready() -> void:
@@ -20,6 +22,10 @@ func _ready() -> void:
 	var variant := (randi() % 2) + 1
 	sprite.animation = "drone%d" % variant
 	sprite.play()
+
+	# Pick a random box texture to carry
+	_box_variant = (randi() % 4) + 1
+	box_sprite.texture = load("res://assets/images/box%d.png" % _box_variant)
 
 
 func launch(velocity: Vector2, shoot_interval: float) -> void:
@@ -53,10 +59,12 @@ func _schedule_shoot() -> void:
 
 
 func _shoot() -> void:
+	box_sprite.visible = false
+
 	var projectile := EnemyProjectileScene.instantiate() as Node2D
 	get_parent().add_child(projectile)
-	projectile.global_position = global_position
-	projectile.launch()
+	projectile.global_position = box_sprite.global_position
+	projectile.launch(_box_variant)
 	projectile.destroyed.connect(_on_projectile_destroyed)
 
 

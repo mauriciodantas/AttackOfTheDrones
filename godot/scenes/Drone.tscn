@@ -1,7 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://drone"]
+[gd_scene load_steps=9 format=3 uid="uid://drone"]
 
 [ext_resource type="Script" path="res://scripts/Drone.gd" id="1"]
 [ext_resource type="SpriteFrames" path="res://resources/drone_frames.tres" id="2"]
+[ext_resource type="Texture2D" path="res://assets/images/box1.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/images/box2.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/images/box3.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/images/box4.png" id="6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(120, 38)
@@ -20,6 +24,10 @@ animation = &"drone1"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 name = "CollisionShape2D"
 shape = SubResource("RectangleShape2D_1")
+
+[node name="Box" type="Sprite2D" parent="."]
+position = Vector2(0, 38)
+texture = ExtResource("3")
 
 [node name="Hitbox" type="Area2D" parent="."]
 

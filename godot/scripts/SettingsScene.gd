@@ -3,8 +3,8 @@
 ## Equivalent to SettingsScene.swift in the original Cocos2d project.
 extends Node2D
 
-@onready var music_button: TextureButton = $MusicButton
-@onready var sound_button: TextureButton = $SoundButton
+@onready var music_button: TextureButton = $UI/MusicButton
+@onready var sound_button: TextureButton = $UI/SoundButton
 
 var _tex_music_on: Texture2D = preload("res://assets/images/musicOn.png")
 var _tex_music_off: Texture2D = preload("res://assets/images/musicOff.png")

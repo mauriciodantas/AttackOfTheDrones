@@ -31,9 +31,13 @@ SoundManager="*res://scenes/SoundManager.tscn"
 
 [display]
 
-window/size/viewport_width=375
-window/size/viewport_height=667
+window/size/viewport_width=768
+window/size/viewport_height=1024
+window/size/window_width_override=768
+window/size/window_height_override=1024
+window/handheld/orientation="portrait"
 window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
 
 [input]
 

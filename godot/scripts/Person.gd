@@ -41,7 +41,8 @@ func freeze() -> void:
 
 # Called by Area2D overlap with enemy projectile
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("enemy_projectile"):
-		area.destroy()
+	var projectile := area.get_parent()
+	if projectile.is_in_group("enemy_projectile"):
+		projectile.destroy()
 		emit_signal("killed")
 		queue_free()

@@ -61,8 +61,11 @@ func _fire_bullet(target: Vector2) -> void:
 	var direction := (target - weapon.global_position).normalized()
 	bullet.launch(direction * BULLET_SPEED)
 
-	# Rotate weapon sprite to face target
+	# Rotate weapon sprite to face target (pivot is at base, so rotation is clean)
 	weapon.rotation = direction.angle() + PI / 2.0
+
+	# Spawn bullet at barrel tip (top of weapon, 79px from pivot along direction)
+	bullet.global_position = weapon.global_position + direction * 79.0
 
 
 # ---------------------------------------------------------------------------
@@ -115,10 +118,10 @@ func _spawn_person() -> void:
 	# Alternate spawn side (independent of drone spawner)
 	var from_left := randi() % 2 == 0
 	if from_left:
-		person.global_position = Vector2(-20.0, viewport_size.y - 90.0)
+		person.global_position = Vector2(-20.0, viewport_size.y * 0.77)
 		person.launch(Vector2(speed, 0.0))
 	else:
-		person.global_position = Vector2(viewport_size.x + 20.0, viewport_size.y - 90.0)
+		person.global_position = Vector2(viewport_size.x + 20.0, viewport_size.y * 0.77)
 		person.launch(Vector2(-speed, 0.0))
 		person.scale.x = -1.0
 

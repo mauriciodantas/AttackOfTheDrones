@@ -22,6 +22,12 @@ var _sfx_game_over: AudioStream = preload("res://assets/audio/game_over.wav")
 func _ready() -> void:
 	_music_player.volume_db = -6.0
 	_sfx_player.volume_db = 0.0
+	_music_player.finished.connect(_on_music_finished)
+
+
+func _on_music_finished() -> void:
+	if GameState.can_play_bg_sound:
+		_music_player.play()
 
 
 func play_background(game_music: bool) -> void:

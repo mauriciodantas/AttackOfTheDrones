@@ -6,9 +6,48 @@
 [ext_resource type="Texture2D" uid="uid://cl07dollfwvd7" path="res://assets/images/weapon.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://cu2ta3s706pry" path="res://assets/images/back.png" id="5"]
 [ext_resource type="LabelSettings" path="res://resources/score_label_settings.tres" id="6"]
+[ext_resource type="FontFile" uid="uid://bc5863vcy3pbq" path="res://assets/fonts/Poppins-Bold.ttf" id="FontFile_poppins"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(1024, 10)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.08, 0.04, 0.18, 0.97)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 0.647, 0.024, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+content_margin_left = 28.0
+content_margin_top = 24.0
+content_margin_right = 28.0
+content_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_quit"]
+bg_color = Color(0.75, 0.1, 0.07, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_continue"]
+bg_color = Color(0.08, 0.52, 0.13, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
 
 [node name="GameScene" type="Node2D" unique_id=2067284707]
 script = ExtResource("1")
@@ -47,10 +86,14 @@ text = "0"
 horizontal_alignment = 1
 
 [node name="LivesContainer" type="HBoxContainer" parent="UI" unique_id=391788928]
-offset_left = 10.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -246.0
 offset_top = 8.0
-offset_right = 260.0
+offset_right = -10.0
 offset_bottom = 58.0
+grow_horizontal = 0
 theme_override_constants/separation = 4
 
 [node name="FadeOverlay" type="ColorRect" parent="UI" unique_id=1802497531]
@@ -72,21 +115,113 @@ anchor_right = 0.5
 anchor_bottom = 0.4
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.13, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 48
+theme_override_fonts/font = ExtResource("FontFile_poppins")
 text = "GAME OVER
 Tap to return"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BackButton" type="TextureButton" parent="UI" unique_id=1343860567]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -260.0
+offset_left = 10.0
 offset_top = 10.0
-offset_right = -10.0
-offset_bottom = 71.0
+offset_right = 110.0
+offset_bottom = 60.0
 texture_normal = ExtResource("5")
+
+[node name="QuitOverlay" type="ColorRect" parent="UI" unique_id=3000000001]
+visible = false
+process_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0, 0, 0, 0.62)
+
+[node name="DialogBox" type="Panel" parent="UI/QuitOverlay" unique_id=3000000002]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -235.0
+offset_top = -120.0
+offset_right = 235.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="UI/QuitOverlay/DialogBox" unique_id=3000000003]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="UI/QuitOverlay/DialogBox/VBox" unique_id=3000000004]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.647, 0.024, 1)
+theme_override_colors/font_outline_color = Color(0.13, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 34
+theme_override_fonts/font = ExtResource("FontFile_poppins")
+text = "Sair do jogo"
+horizontal_alignment = 1
+
+[node name="MessageLabel" type="Label" parent="UI/QuitOverlay/DialogBox/VBox" unique_id=3000000005]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.13, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
+theme_override_fonts/font = ExtResource("FontFile_poppins")
+text = "Deseja sair? Seu progresso será perdido."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Spacer" type="Control" parent="UI/QuitOverlay/DialogBox/VBox" unique_id=3000000006]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 6)
+
+[node name="ButtonRow" type="HBoxContainer" parent="UI/QuitOverlay/DialogBox/VBox" unique_id=3000000007]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 20
+
+[node name="QuitBtn" type="Button" parent="UI/QuitOverlay/DialogBox/VBox/ButtonRow" unique_id=3000000008]
+layout_mode = 2
+custom_minimum_size = Vector2(155, 52)
+theme_override_styles/normal = SubResource("StyleBoxFlat_quit")
+theme_override_styles/hover = SubResource("StyleBoxFlat_quit")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_quit")
+theme_override_styles/focus = SubResource("StyleBoxFlat_quit")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.13, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 22
+theme_override_fonts/font = ExtResource("FontFile_poppins")
+text = "Sair"
+
+[node name="ContinueBtn" type="Button" parent="UI/QuitOverlay/DialogBox/VBox/ButtonRow" unique_id=3000000009]
+layout_mode = 2
+custom_minimum_size = Vector2(155, 52)
+theme_override_styles/normal = SubResource("StyleBoxFlat_continue")
+theme_override_styles/hover = SubResource("StyleBoxFlat_continue")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_continue")
+theme_override_styles/focus = SubResource("StyleBoxFlat_continue")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.13, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 22
+theme_override_fonts/font = ExtResource("FontFile_poppins")
+text = "Continuar"
 
 [node name="SoundManager" type="Node" parent="." unique_id=1422613246]
 
@@ -95,3 +230,5 @@ texture_normal = ExtResource("5")
 [node name="SFXPlayer" type="AudioStreamPlayer" parent="SoundManager" unique_id=1481720811]
 
 [connection signal="pressed" from="UI/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="UI/QuitOverlay/DialogBox/VBox/ButtonRow/QuitBtn" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="UI/QuitOverlay/DialogBox/VBox/ButtonRow/ContinueBtn" to="." method="_on_continue_pressed"]

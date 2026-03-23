@@ -1,12 +1,9 @@
 [gd_resource type="LabelSettings" format=3]
 
-[sub_resource type="FontFile" id="FontFile_1"]
-font_name = "Poppins Bold"
-style_flags = 1
-data_path = "res://assets/fonts/Poppins-Bold.ttf"
+[ext_resource type="FontFile" uid="uid://bc5863vcy3pbq" path="res://assets/fonts/Poppins-Bold.ttf" id="1"]
 
 [resource]
-font = SubResource("FontFile_1")
+font = ExtResource("1")
 font_size = 38
 font_color = Color(1.0, 0.15, 0.15, 1.0)
 outline_size = 3

@@ -19,6 +19,7 @@ var HeartTexture: Texture2D = preload("res://assets/images/heart.png")
 @onready var lives_container: HBoxContainer = $UI/LivesContainer
 @onready var game_over_label: Label = $UI/GameOverLabel
 @onready var fade_overlay: ColorRect = $UI/FadeOverlay
+@onready var quit_overlay: ColorRect = $UI/QuitOverlay
 @onready var weapon: Sprite2D = $Weapon
 @onready var world: Node2D = $World
 
@@ -225,4 +226,18 @@ func _trigger_game_over() -> void:
 
 
 func _on_back_button_pressed() -> void:
+	if _game_over:
+		GameState.go_to("home")
+		return
+	get_tree().paused = true
+	quit_overlay.visible = true
+
+
+func _on_quit_pressed() -> void:
+	get_tree().paused = false
 	GameState.go_to("home")
+
+
+func _on_continue_pressed() -> void:
+	quit_overlay.visible = false
+	get_tree().paused = false

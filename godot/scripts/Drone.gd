@@ -103,7 +103,6 @@ func _schedule_shoot() -> void:
 	await get_tree().create_timer(delay).timeout
 	if is_inside_tree() and not _frozen:
 		_shoot()
-		_schedule_shoot()
 
 
 func _shoot() -> void:

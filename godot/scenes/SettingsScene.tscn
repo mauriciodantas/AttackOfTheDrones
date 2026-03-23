@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cig376u1hypxc" path="res://assets/images/bgSplashScreen.png" id="2"]
 [ext_resource type="Texture2D" uid="uid://bf3qkl41k6q45" path="res://assets/images/cloud1.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://cu2ta3s706pry" path="res://assets/images/back.png" id="4"]
+[ext_resource type="FontFile" uid="uid://bc5863vcy3pbq" path="res://assets/fonts/Poppins-Bold.ttf" id="FontFile_poppins"]
 
 [node name="SettingsScene" type="Node2D" unique_id=175686603]
 script = ExtResource("1")
@@ -18,75 +19,6 @@ texture = ExtResource("3")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=283042]
 
-[node name="TitleLabel" type="Label" parent="UI" unique_id=1632559152]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.15
-anchor_right = 0.5
-anchor_bottom = 0.15
-grow_horizontal = 2
-text = "Settings"
-horizontal_alignment = 1
-
-[node name="MusicButton" type="TextureButton" parent="UI" unique_id=132639613]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.35
-anchor_right = 0.5
-anchor_bottom = 0.35
-offset_left = -140.0
-offset_right = -60.0
-offset_bottom = 80.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MusicLabel" type="Label" parent="UI" unique_id=395615249]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.35
-anchor_right = 0.5
-anchor_bottom = 0.35
-offset_left = -50.0
-offset_top = 20.0
-offset_right = -50.0
-offset_bottom = 20.0
-text = "Music"
-
-[node name="SoundButton" type="TextureButton" parent="UI" unique_id=686894175]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -140.0
-offset_right = -60.0
-offset_bottom = 80.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="SoundLabel" type="Label" parent="UI" unique_id=175373126]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = 20.0
-offset_right = -50.0
-offset_bottom = 20.0
-text = "Sound FX"
-
-[node name="CreditsLabel" type="Label" parent="UI" unique_id=490898564]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.75
-anchor_right = 0.5
-anchor_bottom = 0.75
-grow_horizontal = 2
-text = "Attack of the Drones
-Migrated to Godot 4"
-horizontal_alignment = 1
-
 [node name="BackButton" type="TextureButton" parent="UI" unique_id=1398467008]
 offset_left = 10.0
 offset_top = 10.0
@@ -94,6 +26,114 @@ offset_right = 110.0
 offset_bottom = 60.0
 texture_normal = ExtResource("4")
 
-[connection signal="pressed" from="UI/MusicButton" to="." method="_on_music_button_pressed"]
-[connection signal="pressed" from="UI/SoundButton" to="." method="_on_sound_button_pressed"]
+[node name="TitleLabel" type="Label" parent="UI" unique_id=1632559152]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 55.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.647, 0.024, 1)
+theme_override_colors/font_outline_color = Color(0.13, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 46
+theme_override_fonts/font = ExtResource("FontFile_poppins")
+text = "Configurações"
+horizontal_alignment = 1
+
+[node name="VBox" type="VBoxContainer" parent="UI" unique_id=4000000001]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -185.0
+offset_top = -110.0
+offset_right = 185.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+
+[node name="MusicRow" type="HBoxContainer" parent="UI/VBox" unique_id=4000000002]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 22
+
+[node name="MusicButton" type="TextureButton" parent="UI/VBox/MusicRow" unique_id=132639613]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 80)
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="MusicLabel" type="Label" parent="UI/VBox/MusicRow" unique_id=395615249]
+layout_mode = 2
+custom_minimum_size = Vector2(140, 80)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.13, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 30
+theme_override_fonts/font = ExtResource("FontFile_poppins")
+text = "Música"
+vertical_alignment = 1
+
+[node name="SoundRow" type="HBoxContainer" parent="UI/VBox" unique_id=4000000003]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 22
+
+[node name="SoundButton" type="TextureButton" parent="UI/VBox/SoundRow" unique_id=686894175]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 80)
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="SoundLabel" type="Label" parent="UI/VBox/SoundRow" unique_id=175373126]
+layout_mode = 2
+custom_minimum_size = Vector2(140, 80)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.13, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 30
+theme_override_fonts/font = ExtResource("FontFile_poppins")
+text = "Efeitos"
+vertical_alignment = 1
+
+[node name="FullscreenRow" type="HBoxContainer" parent="UI/VBox" unique_id=4000000004]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 22
+visible = false
+
+[node name="FullscreenButton" type="TextureButton" parent="UI/VBox/FullscreenRow" unique_id=4000000005]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 80)
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="FullscreenLabel" type="Label" parent="UI/VBox/FullscreenRow" unique_id=4000000006]
+layout_mode = 2
+custom_minimum_size = Vector2(140, 80)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.13, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 30
+theme_override_fonts/font = ExtResource("FontFile_poppins")
+text = "Tela Cheia"
+vertical_alignment = 1
+
+[node name="CreditsLabel" type="Label" parent="UI" unique_id=490898564]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 690.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.45, 0.35, 0.65, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_fonts/font = ExtResource("FontFile_poppins")
+text = "Attack of the Drones"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="UI/VBox/MusicRow/MusicButton" to="." method="_on_music_button_pressed"]
+[connection signal="pressed" from="UI/VBox/SoundRow/SoundButton" to="." method="_on_sound_button_pressed"]
+[connection signal="pressed" from="UI/VBox/FullscreenRow/FullscreenButton" to="." method="_on_fullscreen_button_pressed"]
 [connection signal="pressed" from="UI/BackButton" to="." method="_on_back_button_pressed"]

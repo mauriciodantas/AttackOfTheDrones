@@ -31,6 +31,10 @@ var _game_over: bool = false
 var _game_over_ready: bool = false  # true only after game over animation finishes
 var _spawn_left: bool = false  # alternates drone/person spawn side
 
+# --- Weapon rotation ---
+var _target_weapon_rotation: float = 0.0
+const WEAPON_ROTATION_SPEED := 14.0  # rad/s — ajuste para mais rápido/lento
+
 
 func _ready() -> void:
 	SoundManager.play_background(true)
@@ -39,6 +43,17 @@ func _ready() -> void:
 	_update_ui()
 	_schedule_drone_spawn()
 	_schedule_person_spawn()
+	_target_weapon_rotation = weapon.rotation
+
+
+func _process(delta: float) -> void:
+	# Interpola suavemente a rotação da arma em direção ao ângulo alvo.
+	# lerp_angle lida com o "wrap-around" (ex.: de 350° → 10° pelo caminho curto).
+	weapon.rotation = lerp_angle(
+		weapon.rotation,
+		_target_weapon_rotation,
+		1.0 - exp(-WEAPON_ROTATION_SPEED * delta)
+	)
 
 
 func _input(event: InputEvent) -> void:
@@ -71,8 +86,8 @@ func _fire_bullet(target: Vector2) -> void:
 	var direction := (target - weapon.global_position).normalized()
 	bullet.launch(direction * BULLET_SPEED)
 
-	# Rotate weapon sprite to face target (pivot is at base, so rotation is clean)
-	weapon.rotation = direction.angle() + PI / 2.0
+	# Define o ângulo alvo; a rotação visual é interpolada suavemente no _process.
+	_target_weapon_rotation = direction.angle() + PI / 2.0
 
 	# Spawn bullet at barrel tip (top of weapon, 79px from pivot along direction)
 	bullet.global_position = weapon.global_position + direction * 79.0

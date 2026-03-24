@@ -3,6 +3,18 @@
 This folder contains the full migration of **Attack of the Drones** from its
 original Cocos2d / Swift (iOS) codebase to **Godot 4** (GDScript).
 
+## Screenshots
+
+### Tela Inicial
+![Home Screen](screenshots/home.png)
+
+A tela inicial exibe o logo do jogo, um drone carregando um pacote e o personagem construtor. O botão **JOGAR** inicia uma partida; o ícone de configurações no canto superior direito abre a tela de Settings.
+
+### Gameplay
+![Gameplay](screenshots/gameplay.png)
+
+Durante a partida, múltiplos drones inimigos sobrevoam a cidade atacando civis que caminham pelo chão. O jogador usa a arma/torre no centro para abater os drones. O placar aparece no topo e as vidas restantes são exibidas como corações no canto superior direito.
+
 ## Project Structure
 
 ```

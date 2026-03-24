@@ -7,6 +7,10 @@ extends Node2D
 @onready var man_home: Sprite2D = $ManHome
 @onready var cloud1: Sprite2D = $Cloud1
 @onready var cloud2: Sprite2D = $Cloud2
+@onready var fullscreen_button: TextureButton = $UI/FullscreenButton
+
+var _tex_fullscreen_on:  Texture2D = preload("res://assets/images/fullscreenOn.png")
+var _tex_fullscreen_off: Texture2D = preload("res://assets/images/fullscreenOff.png")
 
 const DRONE_FINAL_POS := Vector2(764, 230)
 const DRONE_FINAL_SCALE := Vector2(1.0, 1.0)
@@ -18,6 +22,10 @@ func _ready() -> void:
 	_animate_drone()
 	_animate_man()
 	_animate_clouds()
+	# Exibe o botão de tela cheia apenas na versão web
+	if OS.get_name() == "Web":
+		fullscreen_button.visible = true
+		_update_fullscreen_icon()
 
 
 func _animate_drone() -> void:
@@ -68,3 +76,16 @@ func _on_play_button_pressed() -> void:
 
 func _on_settings_button_pressed() -> void:
 	GameState.go_to("settings")
+
+
+func _update_fullscreen_icon() -> void:
+	var is_fullscreen := DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
+	fullscreen_button.texture_normal = _tex_fullscreen_off if is_fullscreen else _tex_fullscreen_on
+
+
+func _on_fullscreen_button_pressed() -> void:
+	if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	_update_fullscreen_icon()

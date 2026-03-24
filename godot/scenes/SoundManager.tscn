@@ -28,3 +28,7 @@ bus = "SFX"
 [node name="GameOverPlayer" type="AudioStreamPlayer" parent="."]
 name = "GameOverPlayer"
 bus = "SFX"
+
+[node name="PowerupPlayer" type="AudioStreamPlayer" parent="."]
+name = "PowerupPlayer"
+bus = "SFX"

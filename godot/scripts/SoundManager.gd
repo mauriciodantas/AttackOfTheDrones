@@ -9,6 +9,7 @@ extends Node
 @onready var _impact_player: AudioStreamPlayer = $ImpactPlayer
 @onready var _scream_player: AudioStreamPlayer = $ScreamPlayer
 @onready var _game_over_player: AudioStreamPlayer = $GameOverPlayer
+@onready var _powerup_player: AudioStreamPlayer = $PowerupPlayer
 
 var _music_game: AudioStream = preload("res://assets/audio/backgroundGameplay.mp3")
 var _music_menu: AudioStream = preload("res://assets/audio/backgroundMenu.mp3")
@@ -17,6 +18,7 @@ var _sfx_explosion: AudioStream = preload("res://assets/audio/explosion.wav")
 var _sfx_impact: AudioStream = preload("res://assets/audio/impact.wav")
 var _sfx_scream: AudioStream = preload("res://assets/audio/scream.wav")
 var _sfx_game_over: AudioStream = preload("res://assets/audio/game_over.wav")
+var _sfx_powerup: AudioStream = preload("res://assets/audio/powerup.wav")
 
 
 func _ready() -> void:
@@ -68,6 +70,12 @@ func play_game_over() -> void:
 	stop_music()
 	_game_over_player.stream = _sfx_game_over
 	_game_over_player.play()
+
+
+func play_powerup() -> void:
+	if GameState.can_play_effect:
+		_powerup_player.stream = _sfx_powerup
+		_powerup_player.play()
 
 
 func stop_music() -> void:

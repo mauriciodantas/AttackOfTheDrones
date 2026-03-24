@@ -2,11 +2,21 @@ extends Node2D
 
 # --- Difficulty parameters (mirror original Swift constants) ---
 const BULLET_SPEED := 700.0
-const MIN_DRONE_SPAWN_INTERVAL := 2.0
-const MIN_PERSON_SPAWN_INTERVAL := 2.0
-const MIN_DRONE_SHOOT_INTERVAL := 4.0
-const MIN_DRONE_SPEED := 45.0   # pixels/second (original used pixels/frame * 60)
-const MIN_PERSON_SPEED := 100.0
+
+# Valores iniciais (dificuldade mínima)
+const MIN_DRONE_SPAWN_INTERVAL  := 2.0   # segundos entre spawns de drones
+const MIN_PERSON_SPAWN_INTERVAL := 2.0   # segundos entre spawns de pedestres
+const MIN_DRONE_SHOOT_INTERVAL  := 4.0   # segundos entre tiros do drone
+const MIN_DRONE_SPEED           := 45.0  # px/s
+const MIN_PERSON_SPEED          := 100.0 # px/s
+
+# Valores no pico de dificuldade
+const SCORE_MAX_DIFFICULTY      := 3000  # score onde a dificuldade máxima é atingida
+const MAX_DRONE_SPEED           := 130.0 # px/s
+const MAX_PERSON_SPEED          := 220.0 # px/s
+const HARD_DRONE_SPAWN_BASE     := 0.5   # intervalo base mínimo de spawn de drones (s)
+const HARD_PERSON_SPAWN_BASE    := 0.7   # intervalo base mínimo de spawn de pedestres (s)
+const HARD_DRONE_SHOOT_BASE     := 1.5   # intervalo mínimo de tiro do drone (s)
 
 # --- Preloaded scenes ---
 var DroneScene: PackedScene = preload("res://scenes/Drone.tscn")
@@ -94,51 +104,74 @@ func _fire_bullet(target: Vector2) -> void:
 
 
 # ---------------------------------------------------------------------------
+# Difficulty
+# ---------------------------------------------------------------------------
+
+## Retorna um fator entre 0.0 (início) e 1.0 (dificuldade máxima),
+## crescendo suavemente conforme o score aumenta.
+func _difficulty_factor() -> float:
+	return clamp(float(_score) / float(SCORE_MAX_DIFFICULTY), 0.0, 1.0)
+
+
+# ---------------------------------------------------------------------------
 # Spawning
 # ---------------------------------------------------------------------------
 
 func _schedule_drone_spawn() -> void:
-	var delay := MIN_DRONE_SPAWN_INTERVAL + randf_range(0.0, 2.0)
-	await get_tree().create_timer(delay).timeout
+	var d     := _difficulty_factor()
+	var base  := lerpf(MIN_DRONE_SPAWN_INTERVAL, HARD_DRONE_SPAWN_BASE, d)
+	var jitter := lerpf(2.0, 0.4, d)  # variação aleatória diminui com a dificuldade
+	var delay := base + randf_range(0.0, jitter)
+	await get_tree().create_timer(delay, false).timeout
 	if not _game_over:
 		_spawn_drone()
 		_schedule_drone_spawn()
 
 
 func _spawn_drone() -> void:
+	var d             := _difficulty_factor()
 	var viewport_size := get_viewport_rect().size
-	var drone := DroneScene.instantiate() as Node2D
+	var drone         := DroneScene.instantiate() as Node2D
 	world.add_child(drone)
 
+	# Só oferece coração se o jogador tiver vidas a recuperar (10% de chance)
+	if _lives < MAX_LIVES and randi() % 10 == 0:
+		drone.make_heart_carrier()
+
 	_spawn_left = not _spawn_left
-	var y := randf_range(viewport_size.y * 0.25, viewport_size.y * 0.65)
-	var speed := MIN_DRONE_SPEED + randf_range(0.0, 45.0)
+	var y             := randf_range(viewport_size.y * 0.25, viewport_size.y * 0.65)
+	var speed         := lerpf(MIN_DRONE_SPEED, MAX_DRONE_SPEED, d) + randf_range(0.0, 45.0)
+	var shoot_interval := lerpf(MIN_DRONE_SHOOT_INTERVAL, HARD_DRONE_SHOOT_BASE, d)
 
 	if _spawn_left:
 		drone.global_position = Vector2(-drone.get_width() / 2.0, y)
-		drone.launch(Vector2(speed, 0.0), MIN_DRONE_SHOOT_INTERVAL)
+		drone.launch(Vector2(speed, 0.0), shoot_interval)
 	else:
 		drone.global_position = Vector2(viewport_size.x + drone.get_width() / 2.0, y)
-		drone.launch(Vector2(-speed, 0.0), MIN_DRONE_SHOOT_INTERVAL)
+		drone.launch(Vector2(-speed, 0.0), shoot_interval)
 		drone.scale.x = -1.0
 
 	drone.hit.connect(_on_drone_hit)
 
 
 func _schedule_person_spawn() -> void:
-	var delay := MIN_PERSON_SPAWN_INTERVAL + randf_range(0.0, 2.0)
-	await get_tree().create_timer(delay).timeout
+	var d      := _difficulty_factor()
+	var base   := lerpf(MIN_PERSON_SPAWN_INTERVAL, HARD_PERSON_SPAWN_BASE, d)
+	var jitter := lerpf(2.0, 0.4, d)
+	var delay  := base + randf_range(0.0, jitter)
+	await get_tree().create_timer(delay, false).timeout
 	if not _game_over:
 		_spawn_person()
 		_schedule_person_spawn()
 
 
 func _spawn_person() -> void:
+	var d             := _difficulty_factor()
 	var viewport_size := get_viewport_rect().size
-	var person := PersonScene.instantiate() as Node2D
+	var person        := PersonScene.instantiate() as Node2D
 	world.add_child(person)
 
-	var speed := MIN_PERSON_SPEED + randf_range(0.0, 70.0)
+	var speed := lerpf(MIN_PERSON_SPEED, MAX_PERSON_SPEED, d) + randf_range(0.0, 70.0)
 
 	# Alternate spawn side (independent of drone spawner)
 	var from_left := randi() % 2 == 0
@@ -170,6 +203,13 @@ func _on_person_killed() -> void:
 
 func on_enemy_projectile_destroyed() -> void:
 	_add_score(50)
+
+
+func on_heart_collected() -> void:
+	if _lives < MAX_LIVES:
+		_lives += 1
+		_update_ui()
+	SoundManager.play_powerup()
 
 
 # ---------------------------------------------------------------------------

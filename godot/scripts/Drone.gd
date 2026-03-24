@@ -7,6 +7,7 @@ signal hit  # emitted when destroyed by a player bullet
 
 const EnemyProjectileScene: PackedScene = preload("res://scenes/EnemyProjectile.tscn")
 const ExplosionScene: PackedScene = preload("res://scenes/Explosion.tscn")
+const HeartProjectileScene: PackedScene = preload("res://scenes/HeartProjectile.tscn")
 
 @onready var sprite: AnimatedSprite2D = $Sprite
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
@@ -22,6 +23,7 @@ var _shoot_interval: float = 4.0
 var _frozen: bool = false
 var _destroyed: bool = false
 var _box_variant: int = 0  # index into EnemyProjectile.CARGO_TEXTURES
+var _is_heart: bool = false  # true quando este drone carrega um coração
 
 # Mirror of EnemyProjectile.CARGO_TEXTURES so the drone can show the same sprite
 const CARGO_TEXTURES: Array[String] = [
@@ -44,9 +46,19 @@ func _ready() -> void:
 	sprite.animation = "drone%d" % variant
 	sprite.play()
 
-	# Pick a random cargo from the full catalogue
+	# Sempre começa com uma caixa aleatória.
+	# O GameScene pode chamar make_heart_carrier() antes de launch()
+	# caso o jogador tenha vidas a recuperar.
 	_box_variant = randi() % CARGO_TEXTURES.size()
 	box_sprite.texture = load(CARGO_TEXTURES[_box_variant])
+
+
+## Converte este drone num portador de coração.
+## Deve ser chamado pelo GameScene após add_child() e antes de launch().
+func make_heart_carrier() -> void:
+	_is_heart = true
+	box_sprite.texture = load("res://assets/images/heart.png")
+	box_sprite.scale = Vector2(0.85, 0.85)
 
 
 func launch(velocity: Vector2, shoot_interval: float) -> void:
@@ -56,7 +68,9 @@ func launch(velocity: Vector2, shoot_interval: float) -> void:
 	_wave_freq    = randf_range(0.12, 0.45)     # oscillations per second
 	_phase        = randf_range(0.0, TAU)       # randomise starting point
 	_shoot_interval = shoot_interval
-	_schedule_shoot()
+	# Drones com coração não atiram — o item só cai quando o drone é destruído
+	if not _is_heart:
+		_schedule_shoot()
 
 
 func get_width() -> float:
@@ -100,7 +114,7 @@ func _physics_process(delta: float) -> void:
 
 func _schedule_shoot() -> void:
 	var delay := _shoot_interval + randf_range(0.0, 3.0)
-	await get_tree().create_timer(delay).timeout
+	await get_tree().create_timer(delay, false).timeout
 	if is_inside_tree() and not _frozen:
 		_shoot()
 
@@ -158,6 +172,19 @@ func _drop_box() -> void:
 	if not box_sprite.visible:
 		return
 
+	var game_scene := _find_game_scene()
+
+	if _is_heart:
+		# Solta o coração — cai reto para baixo, sem velocidade horizontal
+		var heart := HeartProjectileScene.instantiate() as Node2D
+		get_parent().add_child(heart)
+		heart.global_position = box_sprite.global_position
+		heart.launch()
+		# Conecta ao GameScene para restaurar vida ao ser coletado
+		if game_scene and game_scene.has_method("on_heart_collected"):
+			heart.collected.connect(game_scene.on_heart_collected)
+		return
+
 	var dy_dt: float = cos(_time * _wave_freq * TAU + _phase) * _wave_amp * _wave_freq * TAU
 
 	var projectile := EnemyProjectileScene.instantiate() as Node2D
@@ -167,7 +194,6 @@ func _drop_box() -> void:
 
 	# Connect destroyed signal directly to the game scene, not to this drone
 	# (the drone will be freed before the box can be shot down)
-	var game_scene := _find_game_scene()
 	if game_scene and game_scene.has_method("on_enemy_projectile_destroyed"):
 		projectile.destroyed.connect(game_scene.on_enemy_projectile_destroyed)
 

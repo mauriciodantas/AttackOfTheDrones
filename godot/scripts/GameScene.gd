@@ -11,7 +11,7 @@ const MIN_DRONE_SPEED           := 45.0  # px/s
 const MIN_PERSON_SPEED          := 100.0 # px/s
 
 # Valores no pico de dificuldade
-const SCORE_MAX_DIFFICULTY      := 3000  # score onde a dificuldade máxima é atingida
+const SCORE_MAX_DIFFICULTY      := 7000  # score onde a dificuldade máxima é atingida
 const MAX_DRONE_SPEED           := 130.0 # px/s
 const MAX_PERSON_SPEED          := 220.0 # px/s
 const HARD_DRONE_SPAWN_BASE     := 0.5   # intervalo base mínimo de spawn de drones (s)
@@ -107,10 +107,12 @@ func _fire_bullet(target: Vector2) -> void:
 # Difficulty
 # ---------------------------------------------------------------------------
 
-## Retorna um fator entre 0.0 (início) e 1.0 (dificuldade máxima),
-## crescendo suavemente conforme o score aumenta.
+## Retorna um fator entre 0.0 (início) e 1.0 (dificuldade máxima).
+## Usa curva de potência (x^2) para que o início seja muito suave e
+## a dificuldade só aperte de verdade na segunda metade da progressão.
 func _difficulty_factor() -> float:
-	return clamp(float(_score) / float(SCORE_MAX_DIFFICULTY), 0.0, 1.0)
+	var t: float = clamp(float(_score) / float(SCORE_MAX_DIFFICULTY), 0.0, 1.0)
+	return t * t  # curva quadrática: cresce devagar no início, acelera no fim
 
 
 # ---------------------------------------------------------------------------
